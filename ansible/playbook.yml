@@ -1,0 +1,68 @@
+---
+- name: Настройка сервера
+  hosts: servers
+  become: yes
+
+  vars:
+    user: ubuntu
+    repo: https://github.com/USERNAME/devops-project.git
+    registry: 192.168.0.10:5000
+
+  tasks:
+    - name: Установить docker, docker compose и git
+      apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+          - git
+        update_cache: yes
+
+    - name: Запустить docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Добавить пользователя в группу docker
+      user:
+        name: "{{ user }}"
+        groups: docker
+        append: yes
+
+    - name: Разрешить наш registry
+      copy:
+        content: '{ "insecure-registries": ["{{ registry }}"] }'
+        dest: /etc/docker/daemon.json
+
+    - name: Перезапустить docker
+      service:
+        name: docker
+        state: restarted
+
+    - name: Настроить git
+      become_user: "{{ user }}"
+      shell: |
+        git config --global user.name "{{ user }}"
+        git config --global user.email "{{ user }}@example.com"
+
+    - name: Создать ssh ключ
+      become_user: "{{ user }}"
+      shell: ssh-keygen -t ed25519 -N "" -f /home/{{ user }}/.ssh/id_ed25519
+      args:
+        creates: /home/{{ user }}/.ssh/id_ed25519
+
+    - name: Прочитать ключ
+      become_user: "{{ user }}"
+      shell: cat /home/{{ user }}/.ssh/id_ed25519.pub
+      register: ssh_key
+
+    - name: Показать ключ (его надо добавить в github)
+      debug:
+        msg: "{{ ssh_key.stdout }}"
+
+    - name: Скачать проект из гита
+      become_user: "{{ user }}"
+      git:
+        repo: "{{ repo }}"
+        dest: /home/{{ user }}/devops-project
+        accept_hostkey: yes
