@@ -1,0 +1,23 @@
+docker search getting-started
+docker search getting-started --filter stars=1
+docker pull docker/getting-started
+docker images
+
+docker run --name gs1 -d -p 8080:80 docker/getting-started:latest
+wget --spider localhost:8080
+docker ps
+
+docker run --name gs2 -d -p 8081:80 docker/getting-started:latest
+docker ps
+
+docker stop gs1
+docker ps
+docker ps -a
+
+docker start $(docker ps -aq)
+docker ps
+
+docker rm gs1
+docker rm -f gs1
+
+docker stop $(docker ps -aq)

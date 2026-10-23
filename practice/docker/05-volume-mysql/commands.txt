@@ -1,0 +1,23 @@
+cd volume_project
+docker volume create mysql_data
+docker volume ls
+
+docker build -t my-mysql-image .
+docker run -d --name mysql-container -v mysql_data:/var/lib/mysql my-mysql-image
+
+docker exec -it mysql-container bash
+mysql -u root -p
+CREATE DATABASE test_db;
+SHOW DATABASES;
+exit
+exit
+
+docker stop mysql-container
+docker rm mysql-container
+docker run -d --name mysql-container -v mysql_data:/var/lib/mysql my-mysql-image
+
+docker exec -it mysql-container bash
+mysql -u root -p
+SHOW DATABASES;
+
+docker build -f Dockerfile.init -t my-mysql-init .

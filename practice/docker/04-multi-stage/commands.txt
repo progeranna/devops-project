@@ -1,0 +1,6 @@
+cd foot_project
+docker build -t foot:1.0 .
+docker images --all
+
+docker build -t foot:3.0 .
+docker run -it foot:3.0

@@ -1,0 +1,37 @@
+docker run --name gs1 -d -p 8080:80 docker/getting-started:latest
+docker attach gs1
+docker rm gs1
+
+docker run --name gs1 -p 8080:80 docker/getting-started:latest
+docker rm gs1
+
+docker run --name gs1 -it --rm -p 8080:80 docker/getting-started:latest
+docker attach gs1
+docker rm -f gs1
+
+docker run --name gs1 -d -p 8080:80 docker/getting-started:latest
+docker exec -it gs1 sh
+ls /
+exit
+
+docker pause gs1
+sudo ss -tlnp
+docker unpause gs1
+
+docker exec gs1 ps
+ps aux | grep nginx
+
+docker update gs1 --restart always
+docker inspect gs1 --format '{{ .HostConfig.RestartPolicy.Name }}'
+
+ps aux | grep nginx
+sudo kill <PID>
+docker ps
+docker rm -f gs1
+
+docker run --name bb1 -d busybox dd if=/dev/random of=/dev/null
+docker stats
+docker update bb1 --cpus 0.1
+docker inspect bb1 --format '{{ .HostConfig.NanoCpus }}'
+docker stats
+docker rm -f bb1
