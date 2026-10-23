@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+    restart: always
+
+  backend:
+    image: 192.168.0.10:5000/shop-backend:1.0
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+    restart: always
+
+  frontend:
+    image: 192.168.0.10:5000/shop-frontend:1.0
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - mynetwork
+    restart: always
+
+networks:
+  mynetwork:
+
+volumes:
+  pgdata:
