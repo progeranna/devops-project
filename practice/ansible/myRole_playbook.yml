@@ -1,0 +1,5 @@
+---
+- name: Second Lesson (Подключение ролей)
+  hosts: all
+  roles:
+    - myRole

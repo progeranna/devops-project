@@ -1,0 +1,9 @@
+---
+- name: Тестируем вложенные циклы
+  hosts: all
+  tasks:
+  - name: change file permissions using with_nested construction
+    ansible.builtin.shell: chmod -R {{ item[0] }} {{ item[1] }}
+    with_nested:
+      - ['00755']
+      - ['with_nested_examples/1/myFile']

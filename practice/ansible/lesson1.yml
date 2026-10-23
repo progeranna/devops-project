@@ -1,0 +1,14 @@
+---
+- name: Плейбук с использованием тегов
+  hosts: localhost
+  tasks:
+    - name: pwd2file
+      ansible.builtin.shell: pwd >> '{{ file_name }}'.txt
+      tags:
+        - pwd
+        - all
+    - name: ls2file
+      ansible.builtin.shell: ls >> '{{ ls_name }}'.txt
+      tags:
+        - ls
+        - all

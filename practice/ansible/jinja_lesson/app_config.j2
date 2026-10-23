@@ -1,0 +1,19 @@
+Owner: {{ app_owner }}
+
+{% if maintenance_mode | default(false) %}
+Status: Maintenance
+Warning: Connection is restricted for {{ app_owner | default("Admin") | replace("Admin", "Root User") }}
+{% else %}
+Status: Active
+{% endif %}
+
+Allowed_IPs:
+{% for ip in white_list %}
+  - IP #{{ loop.index0 }}: {{ ip }}
+{% endfor %}
+
+{% if (db_settings is defined) and ('host' in db_settings) %}
+Database: {{ db_settings.host }}:{{ db_settings.port | default(5432) }}
+{% else %}
+Database: Not Configured
+{% endif %}

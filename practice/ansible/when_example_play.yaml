@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  vars:
+    color: "red"
+    animal: "cat"
+    car: "ferrari"
+    random_number: 777777
+  tasks:
+    - name: "do this if my color is blue, and my animal is cat"
+      ansible.builtin.shell: /bin/false
+      when: color == 'blue' and animal == 'cat'
+
+    - name: "do this if my color is not blue, and my animal is cat"
+      ansible.builtin.shell: /bin/true
+      when: color != 'blue' and animal == 'cat'
+
+    - name: "do this if my random_number is over 9000"
+      ansible.builtin.shell: /bin/true
+      when: random_number > 9000
+
+    - name: "do this if I have one of these random_numbers"
+      ansible.builtin.shell: /bin/true
+      when:  random_number in [ 777777, 666666, 888888 ]
+
+    - name: "do this if a variable named myVar is NOT defined"
+      ansible.builtin.shell: /bin/true
+      when: myVar is not defined
+
+    - name: "do this if a variable named myVar is defined"
+      ansible.builtin.shell: /bin/true
+      when: myVar is defined

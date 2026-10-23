@@ -1,0 +1,11 @@
+---
+- name: Изучение статических переменных
+  hosts: all
+  vars:
+    file_name: QWERTY
+  tasks:
+    - name: Записать путь в файл с динамическим именем
+      ansible.builtin.shell: "pwd >> {{ file_name }}.txt"
+
+    - name: Записать список файлов
+      ansible.builtin.shell: "ls >> ls_file.txt"

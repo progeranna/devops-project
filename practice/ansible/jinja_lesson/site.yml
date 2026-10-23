@@ -1,0 +1,26 @@
+---
+- name: Jinja2 Practice
+  hosts: localhost
+  vars:
+    app_owner: "System Admin"
+    maintenance_mode: true
+    white_list:
+      - "192.168.1.1"
+      - "10.0.0.5"
+      - "127.0.0.1"
+    db_settings:
+      host: "db.example.com"
+
+  tasks:
+    - name: Generate config from template
+      ansible.builtin.template:
+        src: app_config.j2
+        dest: ./app_config.conf
+
+    - name: Show generated config
+      ansible.builtin.command: cat ./app_config.conf
+      register: config_out
+
+    - name: Print output
+      ansible.builtin.debug:
+        var: config_out.stdout_lines

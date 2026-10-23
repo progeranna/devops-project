@@ -1,0 +1,5 @@
+---
+- name: Second Lesson
+  hosts: all
+  roles:
+    - { role: myRole, tags: start }

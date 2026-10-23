@@ -1,0 +1,12 @@
+---
+- name: Интерактивный запрос переменных (открытый ввод)
+  hosts: all
+  vars_prompt:
+    - name: file_name
+      prompt: "Enter file_name"
+      private: no
+  tasks:
+    - name: Записать путь в файл
+      ansible.builtin.shell: "pwd >> {{ file_name }}.txt"
+    - name: Записать список файлов
+      ansible.builtin.shell: "ls >> ls_file.txt"

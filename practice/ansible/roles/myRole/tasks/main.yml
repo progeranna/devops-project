@@ -1,0 +1,31 @@
+---
+- name: Включаем блок инициализации
+  include_tasks: init.yaml
+
+- name: Создать целевую директорию с заданными правами
+  ansible.builtin.file:
+    path: ./some_directory
+    state: directory
+    mode: '0755'
+
+- name: Создать директорию из переменной роли (vars/main.yml)
+  ansible.builtin.file:
+    path: "./{{ dir_name }}"
+    state: directory
+    mode: '0755'
+
+- name: Создаем файл
+  ansible.builtin.file:
+    path: some_directory/some_file
+    state: touch
+    mode: '{{ mode_code }}'
+
+- name: Create a file
+  ansible.builtin.file:
+    path: './{{ item }}.txt'
+    state: touch
+    mode: '{{ mode_code }}'
+  with_items:
+    - test
+    - DEMO
+    - '{{ ansible_os_family }}'

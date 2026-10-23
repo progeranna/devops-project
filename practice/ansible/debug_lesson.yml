@@ -1,0 +1,13 @@
+---
+- name: Тестирование интерактивного отладчика
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Попытка создать нового пользователя с ошибкой
+      vars:
+        user: tempuser4
+      ansible.builtin.user:
+        name: "{{ user }}"
+        state: present
+        group_name_error: "admin"
+      debugger: on_failed

@@ -1,0 +1,36 @@
+---
+- name: Практика по циклам в Ansible
+  hosts: local
+  become: yes
+  tasks:
+    - name: Шаг 1. Создание учетных записей сотрудников
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        shell: "{{ item.shell }}"
+        state: present
+      loop:
+        - { username: "ivanov", shell: "/bin/bash" }
+        - { username: "petrov", shell: "/bin/zsh" }
+        - { username: "sidorov", shell: "/bin/bash" }
+
+    - name: Шаг 2. Вывод информации об администраторах с паузой
+      ansible.builtin.debug:
+        msg: "Системный администратор: {{ admin_user.name }} (Отдел: {{ admin_user.dept }})"
+      loop:
+        - { name: "Дмитрий", dept: "DevOps" }
+        - { name: "Елена", dept: "SecOps" }
+      loop_control:
+        loop_var: admin_user
+        pause: 3
+
+    - name: Шаг 3. Проверка превышения квот (только > 20 ГБ)
+      vars:
+        user_quotas:
+          ivanov: 10
+          petrov: 50
+          sidorov: 15
+          kuznetsov: 30
+      ansible.builtin.debug:
+        msg: "Внимание! Пользователь {{ item.key }} имеет повышенную квоту: {{ item.value }} ГБ"
+      loop: "{{ user_quotas | dict2items }}"
+      when: item.value > 20

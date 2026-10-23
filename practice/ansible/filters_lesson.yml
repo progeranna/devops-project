@@ -1,0 +1,45 @@
+---
+- name: Практика по фильтрам Ansible в реальных задачах
+  hosts: localhost
+  gather_facts: no
+  vars:
+    app_archive_path: "/var/www/releases/app_v2.tar.gz"
+
+    maintenance_mode: "true"
+
+    raw_config_list:
+      - key: "db_host"
+        value: "10.0.0.5"
+      - key: "db_port"
+        value: "5432"
+      - key: "cache_enabled"
+        value: "true"
+
+    session_token: "super_secret_string"
+  tasks:
+    - name: 1. Выделение папки, имени файла и раскрытие домашнего пути
+      ansible.builtin.debug:
+        msg:
+          - "Папка архива: {{ app_archive_path | dirname }}"
+          - "Имя файла архива: {{ app_archive_path | basename }}"
+          - "Путь к бэкапам пользователя: {{ '~/app_backups' | expanduser }}"
+
+    - name: 2. Проверка дефолтных значений и типов данных
+      ansible.builtin.debug:
+        msg:
+          - "Порт подключения: {{ web_port | default(80) }}"
+          - "Тип флага обслуживания (ДО фильтра): {{ maintenance_mode | type_debug }}"
+
+    - name: 3. Конвертация строки в Boolean
+      ansible.builtin.debug:
+        msg: "Тип флага обслуживания (ПОСЛЕ фильтра): {{ maintenance_mode | bool | type_debug }}"
+
+    - name: 4. Трансформация списка конфигураций в плоский словарь
+      ansible.builtin.debug:
+        msg: "{{ raw_config_list | items2dict(key_name='key', value_name='value') }}"
+
+    - name: 5. Валидация IP и хеширование токена
+      ansible.builtin.debug:
+        msg:
+          - "Очищенный IP-адрес: {{ '192.168.1.15/24' | ipaddr('address') }}"
+          - "SHA1 Хеш токена: {{ session_token | hash('sha1') }}"

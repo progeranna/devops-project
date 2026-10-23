@@ -1,0 +1,9 @@
+---
+- name: Проверяем определение переменных через group_vars
+  hosts: all
+  tasks:
+    - name: pwd2file
+      ansible.builtin.shell: "pwd >> {{ file_name }}.txt"
+
+    - name: ls2file
+      ansible.builtin.shell: "ls >> {{ ls_name }}.txt"

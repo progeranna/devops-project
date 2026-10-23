@@ -1,0 +1,14 @@
+[Unit]
+Description=HTTP Server for {{ username }}
+After=network.target
+
+[Service]
+Type=simple
+User={{ username }}
+ExecStart=/usr/bin/python3 -m http.server {{ http_port }}
+WorkingDirectory=/tmp/ansible_test_{{ username }}
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target

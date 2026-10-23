@@ -1,0 +1,4 @@
+---
+- assert:
+    that:
+      - mode_code  != ''
