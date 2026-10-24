@@ -5,7 +5,7 @@
 
   vars:
     user: ubuntu
-    repo: https://github.com/USERNAME/devops-project.git
+    repo: git@github.com:progeranna/devops-project.git
     registry: 192.168.0.10:5000
 
   tasks:
@@ -42,8 +42,8 @@
     - name: Настроить git
       become_user: "{{ user }}"
       shell: |
-        git config --global user.name "{{ user }}"
-        git config --global user.email "{{ user }}@example.com"
+        git config --global user.name "Anna Pronkina"
+        git config --global user.email "151401466+progeranna@users.noreply.github.com"
 
     - name: Создать ssh ключ
       become_user: "{{ user }}"

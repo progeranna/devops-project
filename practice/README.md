@@ -15,4 +15,6 @@
 
 ## Ansible
 
-Все 17 практик делались в одной папке `ansible/`, как в методичке: `inventory.ini`, `ansible.cfg`, плейбуки, роль `myRole`, `group_vars`, `host_vars`. Практики 15 и 16 в `jinja_lesson/` и `vault_lesson.yml`, 17 в `web_service/`. Пароль от vault: [REDACTED].
+Все 17 практик делались в одной папке `ansible/`, как в методичке: `inventory.ini`, `ansible.cfg`, плейбуки, роль `myRole`, `group_vars`, `host_vars`. Практики 15 и 16 в `jinja_lesson/` и `vault_lesson.yml`, 17 в `web_service/`.
+
+Пароль Ansible Vault хранится только локально в исключённом из Git файле `.vault_pass`. Для разовой проверки без файла можно использовать `ansible-vault view secret_vars.yml --ask-vault-pass`.

@@ -1,3 +1,8 @@
 node_modules/
 dist/
 __pycache__/
+.DS_Store
+.env
+.env.*
+*.log
+practice/ansible/.vault_pass
